@@ -32,6 +32,7 @@ class AutoSizeText extends StatefulWidget {
     this.textScaleFactor,
     this.maxLines,
     this.semanticsLabel,
+    this.isScroll = false,
   })  : textSpan = null,
         super(key: key);
 
@@ -46,6 +47,7 @@ class AutoSizeText extends StatefulWidget {
     this.maxFontSize = double.infinity,
     this.stepGranularity = 1,
     this.presetFontSizes,
+    this.isScroll = false,
     this.group,
     this.textAlign,
     this.textDirection,
@@ -69,6 +71,7 @@ class AutoSizeText extends StatefulWidget {
   ///
   /// This will be null if a [textSpan] is provided instead.
   final String? data;
+  final bool? isScroll;
 
   /// The text to display as a [TextSpan].
   ///
@@ -412,8 +415,22 @@ class _AutoSizeTextState extends State<AutoSizeText> {
 
   Widget _buildText(double fontSize, TextStyle style, int? maxLines) {
     if (widget.data != null) {
-      return SingleChildScrollView(
-        child: Text(
+      if (widget.isScroll == true) {
+        return SingleChildScrollView(
+            child: Text(widget.data!,
+                key: widget.textKey,
+                style: style.copyWith(fontSize: fontSize),
+                strutStyle: widget.strutStyle,
+                textAlign: widget.textAlign,
+                textDirection: widget.textDirection,
+                locale: widget.locale,
+                softWrap: widget.softWrap,
+                overflow: widget.overflow,
+                textScaleFactor: 1,
+                maxLines: maxLines,
+                semanticsLabel: widget.semanticsLabel));
+      } else {
+        return Text(
           widget.data!,
           key: widget.textKey,
           style: style.copyWith(fontSize: fontSize),
@@ -426,8 +443,8 @@ class _AutoSizeTextState extends State<AutoSizeText> {
           textScaleFactor: 1,
           maxLines: maxLines,
           semanticsLabel: widget.semanticsLabel,
-        ),
-      );
+        );
+      }
     } else {
       return Text.rich(
         widget.textSpan!,
