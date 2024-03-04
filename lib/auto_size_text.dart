@@ -4,6 +4,7 @@ library auto_size_text;
 
 import 'dart:async';
 
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:flutter/widgets.dart';
 
 part 'src/auto_size_text.dart';
